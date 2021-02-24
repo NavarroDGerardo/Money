@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Profile;
 
 class ProfilesController extends Controller
 {
@@ -13,7 +14,8 @@ class ProfilesController extends Controller
      */
     public function index()
     {
-        //
+       $profiles = Profile::all();
+       return view('profile.index', ['profile' => $profiles]);
     }
 
     /**
@@ -23,7 +25,7 @@ class ProfilesController extends Controller
      */
     public function create()
     {
-        //
+        return view('profile.create');
     }
 
     /**
@@ -34,7 +36,14 @@ class ProfilesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $arr = $request->input();
+        $profile = new Profile();
+        $profile->name = $arr['name'];
+        $profile->money = $arr['money'];
+        $profile->type = $arr['type'];
+        $profile->user_id = $arr['user_id'];
+        $profile->save();
+        return redirect()->route('profiles.index');
     }
 
     /**
@@ -45,7 +54,7 @@ class ProfilesController extends Controller
      */
     public function show($id)
     {
-        //
+        return view('profiles.show', ['profile' => $profile]);
     }
 
     /**
