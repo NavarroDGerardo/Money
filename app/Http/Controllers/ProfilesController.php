@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Profile;
 
 class ProfilesController extends Controller
 {
@@ -13,7 +14,8 @@ class ProfilesController extends Controller
      */
     public function index()
     {
-        //
+       $profiles = Profile::all();
+       return view('profile.index', ['profiles' => $profiles]);
     }
 
     /**
@@ -23,7 +25,7 @@ class ProfilesController extends Controller
      */
     public function create()
     {
-        //
+        return view('profile.create');
     }
 
     /**
@@ -34,7 +36,18 @@ class ProfilesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $arr = $request->input();
+        $profile = new Profile();
+        $profile->name = $arr['name'];
+        $profile->money = $arr['money'];
+        $profile->type = $arr['type'];
+        $profile->usuario_id = $arr['usuario_id'];
+        $profile->save();
+
+        //$category = Category::find([])
+        //$profile->categories()->attach($category);
+
+        return redirect()->route('profiles.index');
     }
 
     /**
@@ -45,7 +58,6 @@ class ProfilesController extends Controller
      */
     public function show($id)
     {
-        //
     }
 
     /**
@@ -56,7 +68,8 @@ class ProfilesController extends Controller
      */
     public function edit($id)
     {
-        //
+        $profiles = Profile::find($id);
+        return view('profile.put', ['profile' => $profiles]);
     }
 
     /**
@@ -68,7 +81,15 @@ class ProfilesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $arr = $request->input();
+        $profile = Profile::find($id);
+        $profile->name = $arr['name'];
+        $profile->money = $arr['money'];
+        $profile->type = $arr['type'];
+        $profile->usuario_id = $arr['usuario_id'];
+        $profile->save();
+        
+        return redirect()->route('profiles.index');
     }
 
     /**
@@ -79,6 +100,8 @@ class ProfilesController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $profile = Profile::find($id);
+        $profile->delete();
+        return redirect()->route('profiles.index');
     }
 }
