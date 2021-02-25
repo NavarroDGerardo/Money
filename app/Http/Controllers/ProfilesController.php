@@ -43,6 +43,10 @@ class ProfilesController extends Controller
         $profile->type = $arr['type'];
         $profile->usuario_id = $arr['usuario_id'];
         $profile->save();
+
+        //$category = Category::find([])
+        //$profile->categories()->attach($category);
+
         return redirect()->route('profiles.index');
     }
 
