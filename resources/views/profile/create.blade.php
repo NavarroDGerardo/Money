@@ -5,9 +5,9 @@
 <form action="{{ route('profiles.store') }}" method="POST">
     @csrf
     Name:<input type="text" name="name"> <br>
-    Money:<input type="number" name="name"> <br>
+    Money:<input type="number" name="money"> <br>
     Type:<input type="text" name="type"> <br>
-    User_id:<input type="text" name="user_id"> <br>
+    User_id:<input type="text" name="usuario_id"> <br>
     <button type="submit">Create profile</button>
 </form>
 

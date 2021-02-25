@@ -15,7 +15,7 @@ class ProfilesController extends Controller
     public function index()
     {
        $profiles = Profile::all();
-       return view('profile.index', ['profile' => $profiles]);
+       return view('profile.index', ['profiles' => $profiles]);
     }
 
     /**
@@ -41,7 +41,7 @@ class ProfilesController extends Controller
         $profile->name = $arr['name'];
         $profile->money = $arr['money'];
         $profile->type = $arr['type'];
-        $profile->user_id = $arr['user_id'];
+        $profile->usuario_id = $arr['usuario_id'];
         $profile->save();
         return redirect()->route('profiles.index');
     }
@@ -54,7 +54,6 @@ class ProfilesController extends Controller
      */
     public function show($id)
     {
-        return view('profiles.show', ['profile' => $profile]);
     }
 
     /**
@@ -65,7 +64,8 @@ class ProfilesController extends Controller
      */
     public function edit($id)
     {
-        //
+        $profiles = Profile::find($id);
+        return view('profile.put', ['profile' => $profiles]);
     }
 
     /**
@@ -77,7 +77,15 @@ class ProfilesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $arr = $request->input();
+        $profile = Profile::find($id);
+        $profile->name = $arr['name'];
+        $profile->money = $arr['money'];
+        $profile->type = $arr['type'];
+        $profile->usuario_id = $arr['usuario_id'];
+        $profile->save();
+        
+        return redirect()->route('profiles.index');
     }
 
     /**
@@ -88,6 +96,8 @@ class ProfilesController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $profile = Profile::find($id);
+        $profile->delete();
+        return redirect()->route('profiles.index');
     }
 }
