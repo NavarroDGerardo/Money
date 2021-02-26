@@ -8,3 +8,4 @@ Route::get('/', function () {
 
 Route::resource('usuarios', 'UsuariosController');
 Route::resource('profiles', 'ProfilesController');
+Route::resource('categories', 'CategoriesController');

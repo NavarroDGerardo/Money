@@ -88,7 +88,7 @@ class ProfilesController extends Controller
         $profile->type = $arr['type'];
         $profile->usuario_id = $arr['usuario_id'];
         $profile->save();
-        
+
         return redirect()->route('profiles.index');
     }
 

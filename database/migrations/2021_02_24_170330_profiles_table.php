@@ -16,7 +16,6 @@ class ProfilesTable extends Migration
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
-            $table->float('money');
             $table->rememberToken();
             $table->timestamps();
         });
@@ -50,8 +49,8 @@ class ProfilesTable extends Migration
      */
     public function down()
     {
+        Schema::dropIfExists('rel-profile-category');
         Schema::dropIfExists('profiles');
         Schema::dropIfExists('categories');
-        Schema::dropIfExists('rel-profile-category');
     }
 }
