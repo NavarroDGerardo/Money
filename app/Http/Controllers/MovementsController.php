@@ -1,11 +1,14 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Category;
 
 use Illuminate\Http\Request;
+use App\Movement;
+use App\Category;
+use App\Profile;
+use App\User;
 
-class CategoriesController extends Controller
+class MovementsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,9 +17,14 @@ class CategoriesController extends Controller
      */
     public function index()
     {
-        $categories = Category::all();
-        
-        return view('categories.index', ['categories' => $categories]);
+        $movements = Movement::join('users', 'users.id', '=', 'movements.user_id')
+                            ->join('profiles', 'profiles.id', '=', 'movements.profile_id')
+                            ->join('categories', 'categories.id', '=', 'movements.category_id')
+                            ->get(['movements.id as id', 'users.name as user_name',
+                            'profiles.name as profile_name', 'categories.name as category_name',
+                            'movements.amount as amount']);
+
+        return view('movements.index', ['movements' => $movements]);
     }
 
     /**
@@ -26,7 +34,10 @@ class CategoriesController extends Controller
      */
     public function create()
     {
-        return view('categories.create');
+        $users = User::all();
+        $profiles = Profile::all();
+        $categories = Category::all();
+        return view('movements.create', ['users' => $users, 'profiles' => $profiles, 'categories' => $categories]);
     }
 
     /**
@@ -38,12 +49,15 @@ class CategoriesController extends Controller
     public function store(Request $request)
     {
         $arr = $request->input();
-        $category = new Category();
+        $movement = new Movement();
 
-        $category->name = $arr['name'];
-        $category->save();
+        $movement->amount = $arr['amount'];
+        $movement->user_id = $arr['user_id'];
+        $movement->profile_id = $arr['profile_id'];
+        $movement->category_id = $arr['category_id'];
+        $movement->save();
 
-        return redirect()->route('categories.index');
+        return redirect()->route('movements.index');
     }
 
     /**
@@ -65,9 +79,7 @@ class CategoriesController extends Controller
      */
     public function edit($id)
     {
-        $category = Category::find($id);
-
-        return view('categories.edit', ['category' => $category]);
+        //
     }
 
     /**
@@ -79,13 +91,7 @@ class CategoriesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $arr = $request->input();
-        $category = Category::find($id);
-
-        $category->name = $arr['name'];
-        $category->save();
-
-        return redirect()->route('categories.index');
+        //
     }
 
     /**
@@ -96,9 +102,6 @@ class CategoriesController extends Controller
      */
     public function destroy($id)
     {
-        $category = Category::find($id);
-        $category->delete();
-
-        return redirect()->route('categories.index');
+        //
     }
 }

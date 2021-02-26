@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Usuario;
+use App\User;
 
-class UsuariosController extends Controller
+class UsersController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +14,9 @@ class UsuariosController extends Controller
      */
     public function index()
     {
-        //
+        $users = User::all();
+
+        return view('users.index', ['users' => $users]);
     }
 
     /**
@@ -24,7 +26,7 @@ class UsuariosController extends Controller
      */
     public function create()
     {
-        return view('usuario.create');
+        return view('users.create');
     }
 
     /**
@@ -36,11 +38,15 @@ class UsuariosController extends Controller
     public function store(Request $request)
     {
         $arr = $request->input();
-        $usuario = new Usuario();
-        $usuario->name = $arr['name'];
-        $usuario->password = $arr['password'];
-        $usuario->money = $arr['money'];
-        $usuario->save();
+        $user = new User();
+
+        $user->name = $arr['name'];
+        $user->email = $arr['email'];
+        $user->password = $arr['password'];
+        $user->money = $arr['money'];
+        $user->save();
+
+        return redirect()->route('users.index');
     }
 
     /**
@@ -62,7 +68,9 @@ class UsuariosController extends Controller
      */
     public function edit($id)
     {
-        //
+        $user = User::find($id);
+
+        return view('users.edit', ['user' => $user]);
     }
 
     /**
@@ -74,7 +82,16 @@ class UsuariosController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $arr = $request->input();
+        $user = User::find($id);
+
+        $user->name = $arr['name'];
+        $user->email = $arr['email'];
+        $user->password = $arr['password'];
+        $user->money = $arr['money'];
+        $user->save();
+
+        return redirect()->route('users.index');
     }
 
     /**
@@ -85,6 +102,9 @@ class UsuariosController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user = User::find($id);
+        $user->delete();
+
+        return redirect()->route('users.index');
     }
 }

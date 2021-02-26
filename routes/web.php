@@ -3,8 +3,10 @@
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('movements.index');
 });
 
-Route::resource('usuarios', 'UsuariosController');
+Route::resource('users', 'UsersController');
 Route::resource('profiles', 'ProfilesController');
+Route::resource('categories', 'CategoriesController');
+Route::resource('movements', 'MovementsController');
