@@ -27,7 +27,7 @@ class ProfilesTable extends Migration
             $table->timestamps();
         });
 
-        Schema::create('movement', function (Blueprint $table){
+        Schema::create('movements', function (Blueprint $table){
             $table->id();
             $table->integer('amount');
             $table->unsignedBigInteger(('user_id'));
@@ -48,7 +48,7 @@ class ProfilesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('rel-profile-category');
+        Schema::dropIfExists('movements');
         Schema::dropIfExists('profiles');
         Schema::dropIfExists('categories');
     }
