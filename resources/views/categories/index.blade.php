@@ -4,7 +4,7 @@
 <h2>List of categories</h2>
 <a href="{{ route('categories.create') }}">Create a category</a>
 
-<table>
+<table class="table table-hover">
     <thead>
         <tr>
             <th>#</th>
