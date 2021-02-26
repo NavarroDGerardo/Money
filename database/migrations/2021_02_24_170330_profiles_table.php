@@ -22,20 +22,19 @@ class ProfilesTable extends Migration
 
         Schema::create('profiles', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->double('money');
-            $table->string('type');
-            $table->unsignedBigInteger('usuario_id');
-            $table->foreign('usuario_id')->references('id')->on('usuarios');
+            $table->string('name')->unique();
             $table->rememberToken();
             $table->timestamps();
         });
 
-        Schema::create('rel-profile-category', function (Blueprint $table){
+        Schema::create('movement', function (Blueprint $table){
             $table->id();
+            $table->integer('amount');
+            $table->unsignedBigInteger(('user_id'));
             $table->unsignedBigInteger('profile_id');
-            $table->foreign('profile_id')->references('id')->on('profiles');
             $table->unsignedBigInteger('category_id');
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('profile_id')->references('id')->on('profiles');
             $table->foreign('category_id')->references('id')->on('categories');
             $table->rememberToken();
             $table->timestamps();

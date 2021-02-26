@@ -13,13 +13,8 @@ class UsersTable extends Migration
      */
     public function up()
     {
-        Schema::create('usuarios', function (Blueprint $table) {
-            $table->id();
-            $table->string('name')->unique();
-            $table->string('password');
+        Schema::table('users', function (Blueprint $table) {
             $table->float('money');
-            $table->rememberToken();
-            $table->timestamps();
         });
     }
 
@@ -30,6 +25,8 @@ class UsersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('usuarios');
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn(['money']);
+        });
     }
 }

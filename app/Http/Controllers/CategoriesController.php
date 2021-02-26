@@ -15,6 +15,7 @@ class CategoriesController extends Controller
     public function index()
     {
         $categories = Category::all();
+        
         return view('categories.index', ['categories' => $categories]);
     }
 
@@ -38,6 +39,7 @@ class CategoriesController extends Controller
     {
         $arr = $request->input();
         $category = new Category();
+
         $category->name = $arr['name'];
         $category->save();
 
@@ -64,7 +66,8 @@ class CategoriesController extends Controller
     public function edit($id)
     {
         $category = Category::find($id);
-        return  view('categories.edit', ['category' => $category]);
+
+        return view('categories.edit', ['category' => $category]);
     }
 
     /**
@@ -95,6 +98,7 @@ class CategoriesController extends Controller
     {
         $category = Category::find($id);
         $category->delete();
+
         return redirect()->route('categories.index');
     }
 }
