@@ -18,11 +18,15 @@ class MovementsController extends Controller
     public function index()
     {
         $movements = Movement::join('users', 'users.id', '=', 'movements.user_id')
-                            ->join('profiles', 'profiles.id', '=', 'movements.profile_id')
                             ->join('categories', 'categories.id', '=', 'movements.category_id')
                             ->get(['movements.id as id', 'users.name as user_name',
-                            'profiles.name as profile_name', 'categories.name as category_name',
+                            'categories.name as category_name',
                             'movements.amount as amount']);
+        foreach($movements as $movement)
+        {
+            $movement->profiles = Movement::find($movement->id)->profiles;
+        }
+
 
         return view('movements.index', ['movements' => $movements]);
     }
@@ -51,11 +55,15 @@ class MovementsController extends Controller
         $arr = $request->input();
         $movement = new Movement();
 
+        $profilesId = [$arr['profile_id'], $arr['profile_id2']];
+
         $movement->amount = $arr['amount'];
         $movement->user_id = $arr['user_id'];
-        $movement->profile_id = $arr['profile_id'];
         $movement->category_id = $arr['category_id'];
         $movement->save();
+
+        $profiles = Profile::find($profilesId);
+        $movement->profiles()->attach($profiles);
 
         return redirect()->route('movements.index');
     }
@@ -80,19 +88,18 @@ class MovementsController extends Controller
     public function edit($id)
     {
         $movements = Movement::join('users', 'users.id', '=', 'movements.user_id')
-                            ->join('profiles', 'profiles.id', '=', 'movements.profile_id')
                             ->join('categories', 'categories.id', '=', 'movements.category_id')
                             ->where('movements.id', $id)
                             ->get(['movements.id as id', 'users.name as user_name',
-                            'profiles.name as profile_name', 'categories.name as category_name',
-                            'movements.amount as amount']);
-        $movement = $movements[0];
+                            'categories.name as category_name', 'movements.amount as amount']);
+        $movement = Movement::find($id);
         $users = User::all();
         $profiles = Profile::all();
         $categories = Category::all();
 
+
         return view('movements.edit', ['users' => $users, 'profiles' => $profiles,
-                    'movement' => $movement, 'categories' => $categories]);
+                    'movement' => $movements[0], 'categories' => $categories]);
     }
 
     /**
@@ -107,11 +114,16 @@ class MovementsController extends Controller
         $arr = $request->input();
         $movement = Movement::find($id);
 
+        $profilesId = [$arr['profile_id'], $arr['profile_id2']];
+
         $movement->amount = $arr['amount'];
         $movement->user_id = $arr['user_id'];
         $movement->profile_id = $arr['profile_id'];
         $movement->category_id = $arr['category_id'];
         $movement->save();
+
+        $profiles = Profile::find($profilesId);
+        $movement->profiles()->sync($profiles);
 
         return redirect()->route('movements.index');
     }
@@ -125,7 +137,11 @@ class MovementsController extends Controller
     public function destroy($id)
     {
         $movement = Movement::find($id);
+        $profiles = $movement->profiles;
+
+        $movement->profiles()->detach($profiles);
         $movement->delete();
+
 
         return redirect()->route('movements.index');
     }

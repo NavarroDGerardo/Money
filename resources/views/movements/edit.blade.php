@@ -35,6 +35,22 @@
         <a href="{{ route('profiles.create') }}">New Profile</a>
         </div>
 
+        <div class="form-group">
+        <label for="profile_id">Profile</label>
+        <select class="form-control" name="profile_id2">
+            <option value="">Select a profile</option>
+            @foreach ($profiles as $profile)
+            @if ($movement->profile_name === $profile->name)
+            <option value="{{ $profile->id }}" selected>{{ $profile->name }}</option>
+            @else
+            <option value="{{ $profile->id }}">{{ $profile->name }}</option>
+            @endif
+            @endforeach
+        </select>
+        <a href="{{ route('profiles.create') }}">New Profile</a>
+        </div>
+
+
     <div class="form-group">
         <label for="category_id">Category</label>
         <select class="form-control" name="category_id">
@@ -54,7 +70,7 @@
         <label for="amount">Amount</label>
         <input type="text" class="form-control" id="amount" name="amount" value="{{ $movement->amount }}">
     </div>
-    <input type="submit" class="btn-primary" value="Create movement"/>
+    <input type="submit" class="btn-primary" value="Update movement"/>
 </form>
 
 <form action="{{ route('movements.destroy', $movement->id) }}" method="POST">

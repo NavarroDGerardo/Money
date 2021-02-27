@@ -31,11 +31,19 @@ class ProfilesTable extends Migration
             $table->id();
             $table->integer('amount');
             $table->unsignedBigInteger(('user_id'));
-            $table->unsignedBigInteger('profile_id');
             $table->unsignedBigInteger('category_id');
             $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('profile_id')->references('id')->on('profiles');
             $table->foreign('category_id')->references('id')->on('categories');
+            $table->rememberToken();
+            $table->timestamps();
+        });
+
+        Schema::create('movement_profile', function (Blueprint $table){
+            $table->id();
+            $table->unsignedBigInteger(('profile_id'));
+            $table->unsignedBigInteger(('movement_id'));
+            $table->foreign('profile_id')->references('id')->on('profiles');
+            $table->foreign('movement_id')->references('id')->on('movements');
             $table->rememberToken();
             $table->timestamps();
         });
@@ -48,6 +56,7 @@ class ProfilesTable extends Migration
      */
     public function down()
     {
+        Schema::dropIfExists('movement_profile');
         Schema::dropIfExists('movements');
         Schema::dropIfExists('profiles');
         Schema::dropIfExists('categories');
