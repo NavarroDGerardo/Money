@@ -12,6 +12,7 @@
 </head>
 <body>
     <div class="container">
+    <a href="/">Main page</a>
     @yield('content')
     </div>
 </body>

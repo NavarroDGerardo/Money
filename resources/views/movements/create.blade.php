@@ -43,7 +43,5 @@
         <input type="text" class="form-control" id="amount" name="amount">
     </div>
     <input type="submit" class="form-control btn-primary" value="Create movement"/>
-
-
 </form>
 @endsection

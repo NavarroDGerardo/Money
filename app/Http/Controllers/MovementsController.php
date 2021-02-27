@@ -79,7 +79,20 @@ class MovementsController extends Controller
      */
     public function edit($id)
     {
-        //
+        $movements = Movement::join('users', 'users.id', '=', 'movements.user_id')
+                            ->join('profiles', 'profiles.id', '=', 'movements.profile_id')
+                            ->join('categories', 'categories.id', '=', 'movements.category_id')
+                            ->where('movements.id', $id)
+                            ->get(['movements.id as id', 'users.name as user_name',
+                            'profiles.name as profile_name', 'categories.name as category_name',
+                            'movements.amount as amount']);
+        $movement = $movements[0];
+        $users = User::all();
+        $profiles = Profile::all();
+        $categories = Category::all();
+
+        return view('movements.edit', ['users' => $users, 'profiles' => $profiles,
+                    'movement' => $movement, 'categories' => $categories]);
     }
 
     /**
@@ -91,7 +104,16 @@ class MovementsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $arr = $request->input();
+        $movement = Movement::find($id);
+
+        $movement->amount = $arr['amount'];
+        $movement->user_id = $arr['user_id'];
+        $movement->profile_id = $arr['profile_id'];
+        $movement->category_id = $arr['category_id'];
+        $movement->save();
+
+        return redirect()->route('movements.index');
     }
 
     /**
@@ -102,6 +124,9 @@ class MovementsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $movement = Movement::find($id);
+        $movement->delete();
+
+        return redirect()->route('movements.index');
     }
 }
