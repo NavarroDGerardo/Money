@@ -2,14 +2,17 @@
 
 @section('content')
 <h2>Money manager</h2>
-<a href="{{ route('users.index') }}">View users</a>
-<a href="{{ route('profiles.index') }}">View profiles</a>
-<a href="{{ route('categories.index') }}">View categories</a>
+<div class="form-group">
+<a href="{{ route('users.index') }}" class="form-control">View users</a>
+<a href="{{ route('categories.index') }}" class="form-control">View categories</a>
+<a href="{{ route('profiles.index') }}" class="form-control">View profiles</a>
+</div>
 
-<br>
-<a href="{{ route('movements.create') }}">Create another movement</a>
+<div class="form-group">
+    <a href="{{ route('movements.create') }}">Create another movement</a>
+</div>
 
-<table>
+<table class="table table-hover">
     <thead>
         <tr>
             <th>#</th>

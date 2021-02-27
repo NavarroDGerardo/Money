@@ -4,7 +4,7 @@
 <h2>List of users</h2>
 <a href="{{ route('users.create') }}">Create an account</a>
 
-<table>
+<table class="table table-hover">
     <thead>
         <tr>
             <th>#</th>
