@@ -10,7 +10,7 @@
         <input type="text" class="form-control" name="name" value="{{$profile->name}}">
     </div>
     <div class="form-group">
-        <input type="submit" class="form-control btn btn-primary" value="Update profile">
+        <input type="submit" class="btn btn-primary" value="Update profile">
     </div>
 </form>
 
