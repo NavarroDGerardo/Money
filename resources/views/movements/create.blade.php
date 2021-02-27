@@ -25,7 +25,18 @@
             @endforeach
         </select>
         <a href="{{ route('profiles.create') }}">New Profile</a>
-        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="profile_id">Profile (optional)</label>
+        <select class="form-control" name="profile_id2">
+            <option value="">Select a profile</option>
+            @foreach ($profiles as $profile)
+            <option value="{{ $profile->id }}">{{ $profile->name }}</option>
+            @endforeach
+        </select>
+        <a href="{{ route('profiles.create') }}">New Profile</a>
+    </div>
 
     <div class="form-group">
         <label for="category_id">Category</label>

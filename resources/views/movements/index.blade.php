@@ -17,7 +17,7 @@
         <tr>
             <th>#</th>
             <th>User</th>
-            <th>Profile</th>
+            <th>Profiles</th>
             <th>Category</th>
             <th>Amount</th>
             <th>Edit</th>
@@ -28,7 +28,11 @@
     <tr>
         <td>{{ $movement->id }}</td>
         <td>{{ $movement->user_name }}</td>
-        <td>{{ $movement->profile_name }}</td>
+        <td>
+            @foreach($movement->profiles as $profile)
+            {{ $profile->name }}<br>
+            @endforeach
+        </td>
         <td>{{ $movement->category_name }}</td>
         <td>{{ $movement->amount }}</td>
         <td><a href="{{ route('movements.edit', $movement->id) }}">Edit</a></td>
